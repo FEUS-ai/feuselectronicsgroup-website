@@ -2,6 +2,32 @@
 
 Candidate implementation only. No commit, push, deployment, operator enablement, customer approval, billing or live provider test is performed by this website change.
 
+## Unified evaluation routes (2026-11-26 candidate)
+
+The public product and campaign surfaces now distinguish:
+
+- **Try the free sandbox** — verified external Microsoft sign-in, one private
+  synthetic-only UUID workspace, 14 days from backend-confirmed workspace
+  readiness, and one reviewable reversible workflow. It does not target SQL1-FEG
+  or customer production systems.
+- **Evaluate FEUS for my team** — the existing assisted readiness and onboarding
+  route; its 14-day controlled evaluation starts only after readiness
+  acceptance, onboarding and administrator activation.
+
+The existing customer **Sign in** route remains available. External sandbox
+enrollment does not inherit the FEUS `default` tenant or assigned customer
+membership. The earlier single-tenant statement below is historical evidence
+for the guided-customer rollout and is superseded for this separate sandbox
+identity path; customer tenant assignment controls remain unchanged.
+
+`feus-platform/commercial-offers.yaml` in the distribution repository is the
+commercial source. The website vendors its public JSON, pins the normalized
+contract digest, and checks route labels, start events, duration, paid-conversion
+boundary and canonical destinations in CI. The consented post-workflow handoff
+uses an opaque expiring token; the URL carries no personal data, prompt, SQL or
+customer configuration. A completed provider receipt is replayed instead of
+sending the inquiry twice.
+
 ## Journey and scope
 
 `/journey` leads with an intro and four approximate conversations: 20–30 minute intro, 30–60 minute fit/discovery, 60–90 minute readiness/onboarding, and value review around trial day 12–14. `/trial`, `/readiness` and `/packages` explain the customer-specific pack, negotiated entitlements, activation approvals, execution-anchored 14-day evaluation, explicit conversion consent, extension review and offboarding. No clock before onboarding or automatic billing. Hosted and Expert readiness are separate; ordinary users do not need Git. The website does not create or approve runtime packs.

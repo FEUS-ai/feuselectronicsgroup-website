@@ -7,12 +7,13 @@ import { join } from 'node:path'
 const root = fileURLToPath(new URL('../', import.meta.url))
 const read = (path) => readFileSync(join(root, path), 'utf8')
 const contractBytes = read('src/data/evaluationOffer.json')
+const normalizedContractBytes = contractBytes.replace(/\r\n/g, '\n')
 const contract = JSON.parse(contractBytes)
 const source = JSON.parse(read('.github/evaluation-offer-source.json'))
 
 assert.equal(contract.contract_version, source.contract_version)
 assert.equal(
-  createHash('sha256').update(contractBytes).digest('hex').toUpperCase(),
+  createHash('sha256').update(normalizedContractBytes).digest('hex').toUpperCase(),
   source.sha256,
 )
 assert.equal(contract.offers.free_sandbox.duration_days, 14)
