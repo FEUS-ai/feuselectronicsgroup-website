@@ -4,9 +4,9 @@ import SEO from '../components/SEO'
 import AnimatedSection from '../components/AnimatedSection'
 import WorkflowVisual from '../components/WorkflowVisual'
 import { SectionLabel, CTAButton, GlowDivider } from '../components/ui'
-import { CalendlyButton } from '../components/CalendlyEmbed'
 import { POSTURE, PRODUCT_FAMILIES } from '../data/publicStatus'
 import { CLOUD_RUNTIME, LAUNCH_URL } from '../data/cloudRuntime'
+import { ENTERPRISE_INTAKE_URL, SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 const operatingPrinciples = [
   {
@@ -68,7 +68,8 @@ export default function FeusAiPage() {
               FEUS.ai coordinates agents, tools, policies, approvals, and evidence behind a unified operator experience. {POSTURE.architectureStatement}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <CalendlyButton className="btn-primary">Request an intro</CalendlyButton>
+              <a href={SANDBOX_SIGNUP_URL} className="btn-primary">Try the free sandbox</a>
+              <a href={ENTERPRISE_INTAKE_URL} className="btn-secondary">Evaluate FEUS for my team</a>
               <CTAButton to="/journey" variant="secondary">Evaluation journey</CTAButton>
               <CTAButton to="/demo" variant="secondary">Request a demonstration</CTAButton>
               <CTAButton to="/get-started" variant="secondary">See the adoption path</CTAButton>
@@ -85,7 +86,7 @@ export default function FeusAiPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-feus-200 underline underline-offset-2"
               >
-                Sign in to FEUS
+                Sign in
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </a>{' '}
               &mdash; requires an account your organisation has granted.

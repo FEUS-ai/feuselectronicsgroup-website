@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "contract_version": "1.0.0",
+  "destinations": {
+    "evaluation_landing": "https://feuselectronicsgroup.com/journey",
+    "sandbox_signup": "https://app.feuselectronicsgroup.com/?start=sandbox",
+    "enterprise_intake": "https://feuselectronicsgroup.com/contact?type=readiness#contact-form",
+    "pricing": "https://feuselectronicsgroup.com/pricing"
+  },
+  "offers": {
+    "free_sandbox": {
+      "label": "Try the free sandbox",
+      "route": "self_service",
+      "duration_days": 14,
+      "start_event": "verified_private_workspace_ready",
+      "data_scope": "synthetic_only",
+      "geography": "United States",
+      "target": "evaluation-sandbox",
+      "target_environment": "TST",
+      "activation_owner": "verified_evaluator",
+      "clock_record": "authoritative_backend",
+      "paid_conversion": "explicit_package_selection_and_billing_authorization",
+      "automatic_billing": false,
+      "availability": "runtime_configured",
+      "assisted_access_url": "https://feuselectronicsgroup.com/contact?type=trial#contact-form",
+      "technical_limits": {
+        "max_active_workspaces": 200,
+        "request_token_ceiling": 20000,
+        "output_token_limit": 1024,
+        "estimated_monthly_cost_ceiling_usd": "2.00",
+        "per_request_estimated_cost_ceiling_usd": "0.10"
+      }
+    },
+    "enterprise_evaluation": {
+      "label": "Evaluate FEUS for my team",
+      "route": "guided_enterprise",
+      "duration_days": 14,
+      "start_event": "administrator_activation_after_readiness_acceptance",
+      "data_scope": "customer_scope_from_approved_readiness_pack",
+      "geography": "customer_proposal",
+      "target": "customer_qualified_target",
+      "target_environment": "customer_authoritative_registration",
+      "activation_owner": "customer_administrator",
+      "clock_record": "authoritative_backend",
+      "paid_conversion": "signed_proposal_and_explicit_billing_authorization",
+      "automatic_billing": false,
+      "availability": "assisted_intake"
+    }
+  },
+  "price_book": {
+    "reference": "docs/commercialization/PACKAGES_AND_ECONOMICS.md",
+    "public_url": "https://feuselectronicsgroup.com/pricing",
+    "starter_usd_monthly": 2500,
+    "professional_usd_monthly": 7500,
+    "enterprise": "custom",
+    "terms": "signed_customer_proposal"
+  }
+}

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ArrowRight, ExternalLink } from 'lucide-react'
 import BrandMark from './BrandMark'
 import { LAUNCH_URL } from '../data/cloudRuntime'
-import { CalendlyButton } from './CalendlyEmbed'
+import { SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 const primaryNavigation = [
   { name: 'Services', href: '/services' },
@@ -218,7 +218,18 @@ export default function Navbar() {
               Sign in
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
-            <CalendlyButton className="btn-primary ml-2 !min-h-11 !px-3.5 !py-2.5">Request an intro</CalendlyButton>
+            <Link
+              to="/contact?type=readiness#contact-form"
+              className="btn-secondary ml-2 !min-h-11 !px-3.5 !py-2.5 inline-flex items-center"
+            >
+              Evaluate FEUS for my team
+            </Link>
+            <a
+              href={SANDBOX_SIGNUP_URL}
+              className="btn-primary ml-2 !min-h-11 !px-3.5 !py-2.5 inline-flex items-center"
+            >
+              Try the free sandbox
+            </a>
             <Link
               to="/demo"
               className="btn-secondary ml-2 !min-h-11 !px-3.5 !py-2.5 inline-flex items-center gap-2"
@@ -279,7 +290,12 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <CalendlyButton className="btn-primary mt-5 w-full">Request an intro</CalendlyButton>
+            <a href={SANDBOX_SIGNUP_URL} className="btn-primary mt-5 w-full inline-flex items-center justify-center">
+              Try the free sandbox
+            </a>
+            <Link to="/contact?type=readiness#contact-form" className="btn-secondary mt-3 w-full inline-flex items-center justify-center">
+              Evaluate FEUS for my team
+            </Link>
             <Link to="/demo" className="btn-secondary mt-3 w-full inline-flex items-center justify-center gap-2">
               Request a demo
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -291,11 +307,11 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="btn-secondary mt-3 w-full inline-flex items-center justify-center gap-2"
             >
-              Sign in to FEUS
+              Sign in
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
             <p className="mt-2 text-xs leading-relaxed text-slate-500">
-              Sign-in requires an account your organisation has granted.
+              Existing customers keep their assigned organization. New evaluators create only a private synthetic sandbox.
             </p>
             <Link to="/contact" className="btn-secondary mt-3 w-full">Send a message</Link>
           </div>

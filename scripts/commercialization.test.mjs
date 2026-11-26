@@ -9,7 +9,7 @@ import { StaticRouter } from 'react-router-dom/server.js'
 import { createServer } from 'vite'
 import handler, { createContactHandler } from '../api/contact.js'
 import { contactAvailable, consumeContactRate } from '../api/contactControls.js'
-import { readContactAvailability, sendContact } from '../src/services/contactClient.js'
+import { readContactAvailability, readEvaluationHandoff, sendContact } from '../src/services/contactClient.js'
 import { JOURNEY_CALLS, READINESS_PACK, USE_CASE_STORIES } from '../src/data/commercialJourney.js'
 import { resolveInquiry } from '../src/data/contactNavigation.js'
 
@@ -112,6 +112,36 @@ test('browser lead client reports network, malformed responses, operational guar
   await assert.rejects(sendContact({}, async () => ({ ok: false, status: 429, json: async () => ({ error: 'Too many inquiries' }) })), /Too many/)
   await assert.rejects(sendContact({}, async () => ({ ok: true, json: async () => ({ success: true }) })), /did not confirm/)
   assert.equal((await sendContact({}, async () => ({ ok: true, json: async () => ({ success: true, delivery: 'provider_accepted' }) }))).delivery, 'provider_accepted')
+  assert.equal(await readEvaluationHandoff('', async () => { throw new Error('must not call') }), null)
+  assert.equal((await readEvaluationHandoff('a'.repeat(40), async () => ({
+    ok: true,
+    json: async () => ({ completed: false, email: 'evaluator@example.test' }),
+  }))).email, 'evaluator@example.test')
+  assert.equal((await readEvaluationHandoff('b'.repeat(40), async () => ({
+    ok: true,
+    json: async () => ({ completed: true, delivery_receipt: 'resend-1' }),
+  }))).completed, true)
+})
+
+test('sandbox handoff retries replay the accepted provider receipt before sending again', async () => {
+  await withConfig(async () => {
+    let claims = 0
+    const req = request()
+    req.body.handoffToken = 'h'.repeat(40)
+    const res = response()
+    await createContactHandler({
+      rateCheck: async () => true,
+      handoffClaim: async () => {
+        claims++
+        return { replayed: true, completed: true, delivery_receipt: 'resend-provider-id' }
+      },
+      handoffComplete: async () => { throw new Error('must not complete a replay') },
+    })(req, res)
+    assert.equal(res.code, 200)
+    assert.equal(claims, 1)
+    assert.equal(res.body.replayed, true)
+    assert.equal(res.body.inquiryReceipt, 'resend-provider-id')
+  })
 })
 
 test('commercial data has the four approximate calls, full pack and bounded walkthroughs', () => {
@@ -124,6 +154,11 @@ test('commercial data has the four approximate calls, full pack and bounded walk
   }
   assert.equal(resolveInquiry('intro').inquiryType, 'Request a FEUS.ai Intro')
   assert.equal(resolveInquiry('trial').inquiryType, 'FEUS.ai Readiness & Trial')
+  const nav = read('src/components/Navbar.jsx')
+  assert.equal((nav.match(/Try the free sandbox/g) || []).length, 2)
+  assert.ok((nav.match(/Evaluate FEUS for my team/g) || []).length >= 2)
+  assert.match(nav, />\s*Sign in\s*</)
+  assert.doesNotMatch(nav, /Sign in to FEUS/)
 })
 
 test('commercial pages SSR retain journey boundaries, email fallback and accessible walkthrough', async () => {
@@ -131,8 +166,8 @@ test('commercial pages SSR retain journey boundaries, email fallback and accessi
   const server = await createServer({ root, cacheDir, server: { middlewareMode: true, watch: { ignored: () => true }, hmr: false, preTransformRequests: false }, appType: 'custom', logLevel: 'error', optimizeDeps: { noDiscovery: true, include: [] } })
   try {
     for (const [name, route, patterns] of [
-      ['CommercialJourneyPage', '/journey', [/Request an intro/, /20–30/, /30–60/, /60–90/, /12–14/, /aria-pressed="true"/, /aria-live="polite"/, /Illustrative walkthrough/, /How engagements work/, /no automatic billing/, /proposal and invoice/]],
-      ['TrialPage', '/trial', [/No clock before onboarding/, /No auto-billing/, /explicit customer consent/, /day 12–14/i]],
+      ['CommercialJourneyPage', '/journey', [/Try the free sandbox/, /Evaluate FEUS for my team/, /Sign in/, /20–30/, /30–60/, /60–90/, /12–14/, /aria-pressed="true"/, /aria-live="polite"/, /Illustrative walkthrough/, /How engagements work/, /no automatic billing/i]],
+      ['TrialPage', '/trial', [/Try the free sandbox/, /Evaluate FEUS for my team/, /verified_private|private workspace is usable|workspace is usable/i, /No hidden start event/i, /day 12–14/i]],
       ['ReadinessPage', '/readiness', [/Hosted readiness/, /Expert installed readiness/, /all five gateway/, /do not need Git/, /not a browser-issued approval/, /customer-specific pack/]],
       ['PackagesPage', '/packages', [/\$2,500/, /\$7,500/, /Model usage classes/, /Frontier/, /no automatic billing/, /Contact sales/, /<caption>/, /scope="row"/]],
       ['ContactPage', '/contact?type=intro', [/Request a FEUS.ai Intro/, /disabled=""/, /name="privacyConsent"/, /required=""/, /tabindex="-1"/, /mailto:info@feuselectronicsgroup.com/, /confirm a time with you by email/, /draft privacy notice/]],

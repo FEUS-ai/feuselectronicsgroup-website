@@ -109,7 +109,8 @@ test('main product surfaces present the service confidently and keep demo/adopti
     assert.doesNotMatch(copy, /NO-GO|above LOCAL|\bTST\b|does not establish/, name)
   }
   const started = await page('GetStartedPage', '/get-started')
-  assert.ok(links(started).includes('/contact?type=adoption#contact-form'))
+  assert.ok(links(started).includes('/contact?type=readiness#contact-form'))
+  assert.ok(links(started).includes('https://app.feuselectronicsgroup.com/?start=sandbox'))
 })
 
 test('all security reporting surfaces deep-link to the selected and focusable form', async () => {

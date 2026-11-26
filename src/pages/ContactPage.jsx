@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams, useLocation } from 'react-router-dom'
-import { readContactAvailability, sendContact } from '../services/contactClient'
+import { readContactAvailability, readEvaluationHandoff, sendContact } from '../services/contactClient'
 import {
   Mail, MapPin, ArrowRight, Send, BrainCircuit, BriefcaseBusiness,
   Clock, Globe, MessageSquare, CheckCircle2, Calendar,
@@ -47,7 +47,9 @@ export default function ContactPage() {
   const location = useLocation()
   const formSectionRef = useRef(null)
   const inquiryRef = useRef(null)
+  const dirtyFields = useRef(new Set())
   const requestedType = searchParams.get('type') || location.state?.inquiry
+  const handoffToken = searchParams.get('handoff') || ''
   const isReviewMode = requestedType === 'review'
 
   const [formData, setFormData] = useState({
@@ -63,6 +65,9 @@ export default function ContactPage() {
   const [error, setError] = useState(null)
   const [hoverRating, setHoverRating] = useState(0)
   const [contactAvailable, setContactAvailable] = useState(false)
+  const [activeHandoffToken, setActiveHandoffToken] = useState('')
+  const [handoffLoading, setHandoffLoading] = useState(Boolean(handoffToken))
+  const [handoffNotice, setHandoffNotice] = useState('')
 
   useEffect(() => {
     let active = true
@@ -75,11 +80,45 @@ export default function ContactPage() {
   }, [requestedType])
 
   useEffect(() => {
+    let active = true
+    if (!handoffToken) return undefined
+    readEvaluationHandoff(handoffToken).then((handoff) => {
+      if (!active) return
+      setHandoffLoading(false)
+      if (!handoff) {
+        setActiveHandoffToken('')
+        setHandoffNotice('The workflow handoff is missing or expired. The form remains available as a normal enterprise inquiry; review and submit it without the expired token.')
+        return
+      }
+      if (handoff.completed === true) {
+        setActiveHandoffToken('')
+        setSubmitted(true)
+        setHandoffNotice('This workflow inquiry was already accepted by the provider. No duplicate was sent.')
+        return
+      }
+      setActiveHandoffToken(handoffToken)
+      setHandoffNotice('Workflow context resolved. Review the prefilled email and summary before submitting.')
+      setFormData((current) => ({
+        ...current,
+        email: dirtyFields.current.has('email') ? current.email : handoff.email,
+        message: dirtyFields.current.has('message')
+          ? current.message
+          : `${handoff.summary}\n\nEvidence reference: ${handoff.evidence_receipt}`,
+        inquiryType: dirtyFields.current.has('inquiryType')
+          ? current.inquiryType
+          : 'FEUS.ai Readiness & Trial',
+      }))
+    })
+    return () => { active = false }
+  }, [handoffToken])
+
+  useEffect(() => {
     if (location.hash !== '#contact-form' && !resolveInquiry(requestedType).inquiryType) return
     focusContactForm(formSectionRef.current, inquiryRef.current)
   }, [location.key, location.hash, requestedType])
 
   const handleChange = (e) => {
+    dirtyFields.current.add(e.target.name)
     setFormData({ ...formData, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value })
     if (error) setError(null)
   }
@@ -95,7 +134,11 @@ export default function ContactPage() {
         ? `\n\n--- Review Details ---\nRating: ${formData.rating}/5 stars\nWould Recommend: ${formData.wouldRecommend || 'Not specified'}\nForm Type: demo_feedback`
         : ''
 
-      await sendContact({ ...formData, message: formData.message + reviewSuffix })
+      await sendContact({
+        ...formData,
+        message: formData.message + reviewSuffix,
+        handoffToken: activeHandoffToken,
+      })
 
       setSubmitted(true)
     } catch (err) {
@@ -164,6 +207,13 @@ export default function ContactPage() {
             )}
             {(requestedType === 'security' || requestedType === 'governance') && (
               <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Governance &amp; Security is selected. Do not include credentials, customer data or sensitive exploit details. This form is not an encrypted disclosure channel; see our <Link to="/security" className="text-feus-800 underline">responsible disclosure guidance</Link>.</p>
+            )}
+            {handoffToken && (
+              <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
+                {handoffLoading
+                  ? 'Resolving the opaque workflow handoff…'
+                  : handoffNotice || 'Minimal workflow evidence was carried here with an opaque, expiring handoff. Review the prefilled contact email and summary before submitting; no raw prompt or SQL is included.'}
+              </p>
             )}
           </div>
           <div className="grid lg:grid-cols-5 gap-12">
@@ -412,7 +462,7 @@ export default function ContactPage() {
 
                         <button
                           type="submit"
-                          disabled={submitting || !contactAvailable}
+                          disabled={submitting || !contactAvailable || handoffLoading}
                           className="btn-primary w-full group disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           {submitting ? (
