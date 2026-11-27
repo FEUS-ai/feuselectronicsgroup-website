@@ -11,8 +11,10 @@ The public product and campaign surfaces now distinguish:
   readiness, and one reviewable reversible workflow. It does not target SQL1-FEG
   or customer production systems.
 - **Evaluate FEUS for my team** — the existing assisted readiness and onboarding
-  route; its 14-day controlled evaluation starts only after readiness
-  acceptance, onboarding and administrator activation.
+  route; the CTA opens a prefilled email draft to
+  `info@feuselectronicsgroup.com`. Its 14-day controlled evaluation starts only
+  after readiness acceptance, onboarding and administrator activation. The
+  mail draft itself is not approval, a delivery receipt, or a billing action.
 
 The existing customer **Sign in** route remains available. External sandbox
 enrollment does not inherit the FEUS `default` tenant or assigned customer

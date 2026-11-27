@@ -3,11 +3,12 @@ import SEO from '../components/SEO'
 import CommercialNotice from '../components/CommercialNotice'
 import { READINESS_PACK } from '../data/commercialJourney'
 import { LAUNCH_URL } from '../data/cloudRuntime'
+import { ENTERPRISE_INTAKE_URL } from '../data/evaluationOffer'
 
 export default function ReadinessPage() {
   return <div className="commercial-page">
     <SEO title="FEUS.ai customer readiness pack" description="Customer-specific hosted and Expert readiness, approvals, trial activation, identity, privacy, entitlements, budgets, acceptance evidence and offboarding." />
-    <header><p className="commercial-eyebrow">Customer-specific, approval-led</p><h1>Your readiness pack connects scope to safe use.</h1><p>Use this checklist in discovery and onboarding. It is documentation, not a browser-issued approval. Customer administrators and authorized FEUS operators review the actual pack in the governed backend; website form fields cannot grant runtime authority.</p><div className="commercial-actions"><Link to="/contact?type=readiness#contact-form" className="btn-primary">Evaluate FEUS for my team</Link><Link to="/trial" className="btn-secondary">Compare both evaluation routes</Link></div></header>
+    <header><p className="commercial-eyebrow">Customer-specific, approval-led</p><h1>Your readiness pack connects scope to safe use.</h1><p>Use this checklist in discovery and onboarding. It is documentation, not a browser-issued approval. Customer administrators and authorized FEUS operators review the actual pack in the governed backend; an email draft cannot grant runtime authority.</p><div className="commercial-actions"><a href={ENTERPRISE_INTAKE_URL} className="btn-primary">Evaluate FEUS for my team</a><Link to="/trial" className="btn-secondary">Compare both evaluation routes</Link></div></header>
     <CommercialNotice />
     <section id="hosted"><h2>Hosted readiness</h2><p>Confirm organization/tenant onboarding, Entra sign-in, authorized roles, privacy boundary, approved models and routing, budgets and route acceptance checks. Customer targets are registered by reference; execution against them is qualified separately on the Expert route. Ordinary hosted users do not need Git, a local editor or a source checkout.</p></section>
     <section id="expert"><h2>Expert installed readiness</h2><p>Confirm supported installation and dependency versions, local operational owner, approved identities and target reachability, all five gateway subsystem adapters, real execution binding, policy/PII/approval rules, audit health and rollback. The Expert route runs from a FEUS-provided distribution checkout set up with you. Never bypass the governed gateway to prove connectivity.</p></section>

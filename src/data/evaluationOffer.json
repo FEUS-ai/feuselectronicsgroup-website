@@ -4,7 +4,7 @@
   "destinations": {
     "evaluation_landing": "https://feuselectronicsgroup.com/journey",
     "sandbox_signup": "https://app.feuselectronicsgroup.com/?start=sandbox",
-    "enterprise_intake": "https://feuselectronicsgroup.com/contact?type=readiness#contact-form",
+    "enterprise_intake": "mailto:info@feuselectronicsgroup.com?subject=FEUS.ai%20team%20evaluation&body=Please%20help%20me%20evaluate%20FEUS.ai%20for%20my%20team.%0A%0ACompany%3A%0AName%3A%0ATarget%20outcome%3A%0A",
     "pricing": "https://feuselectronicsgroup.com/pricing"
   },
   "offers": {
@@ -22,7 +22,7 @@
       "paid_conversion": "explicit_package_selection_and_billing_authorization",
       "automatic_billing": false,
       "availability": "runtime_configured",
-      "assisted_access_url": "https://feuselectronicsgroup.com/contact?type=trial#contact-form",
+      "assisted_access_url": "mailto:info@feuselectronicsgroup.com?subject=FEUS.ai%20assisted%20sandbox%20access&body=Please%20help%20me%20start%20a%20FEUS.ai%20synthetic%20sandbox%20evaluation.%0A%0AName%3A%0ACompany%3A%0A",
       "technical_limits": {
         "max_active_workspaces": 200,
         "request_token_ceiling": 20000,

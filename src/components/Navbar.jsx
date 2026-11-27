@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ArrowRight, ExternalLink } from 'lucide-react'
 import BrandMark from './BrandMark'
 import { LAUNCH_URL } from '../data/cloudRuntime'
-import { SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
+import { ENTERPRISE_INTAKE_URL, SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 const primaryNavigation = [
   { name: 'Services', href: '/services' },
@@ -218,12 +218,12 @@ export default function Navbar() {
               Sign in
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
-            <Link
-              to="/contact?type=readiness#contact-form"
+            <a
+              href={ENTERPRISE_INTAKE_URL}
               className="btn-secondary ml-2 !min-h-11 !px-3.5 !py-2.5 inline-flex items-center"
             >
               Evaluate FEUS for my team
-            </Link>
+            </a>
             <a
               href={SANDBOX_SIGNUP_URL}
               className="btn-primary ml-2 !min-h-11 !px-3.5 !py-2.5 inline-flex items-center"
@@ -293,9 +293,9 @@ export default function Navbar() {
             <a href={SANDBOX_SIGNUP_URL} className="btn-primary mt-5 w-full inline-flex items-center justify-center">
               Try the free sandbox
             </a>
-            <Link to="/contact?type=readiness#contact-form" className="btn-secondary mt-3 w-full inline-flex items-center justify-center">
+            <a href={ENTERPRISE_INTAKE_URL} className="btn-secondary mt-3 w-full inline-flex items-center justify-center">
               Evaluate FEUS for my team
-            </Link>
+            </a>
             <Link to="/demo" className="btn-secondary mt-3 w-full inline-flex items-center justify-center gap-2">
               Request a demo
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

@@ -1,6 +1,7 @@
 import SEO from '../components/SEO'
 import { SectionLabel, CTAButton } from '../components/ui'
 import PriceBook from '../components/PriceBook'
+import { ENTERPRISE_INTAKE_URL } from '../data/evaluationOffer'
 
 /**
  * /pricing — FEUS.ai platform pricing (published price book) followed by
@@ -63,7 +64,7 @@ export default function PricingPage() {
             ))}
           </div>
           <div className="mt-10 flex flex-wrap gap-4">
-            <CTAButton to="/contact?type=readiness#contact-form">Evaluate FEUS for my team</CTAButton>
+            <a href={ENTERPRISE_INTAKE_URL} className="btn-primary group">Evaluate FEUS for my team</a>
             <CTAButton to="/services" variant="secondary">Our services</CTAButton>
           </div>
         </div>
