@@ -12,7 +12,7 @@ import {
 } from '../data/cloudRuntime'
 import { POSTURE } from '../data/publicStatus'
 import CommercialNotice from '../components/CommercialNotice'
-import { CalendlyButton } from '../components/CalendlyEmbed'
+import { SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 /**
  * /get-started — the client onboarding path (W-12).
@@ -47,10 +47,11 @@ export default function GetStartedPage() {
           </p>
           <p className="mt-4 text-gray-300 leading-relaxed">
             You do not need an editor, an agent framework, or a local install. The
-            cloud runtime is a browser surface. It is not open to the public: access
-            is granted per organisation through Microsoft Entra ID, which is what
-            step 1 and step 2 below establish. If you want to see the product before
-            starting that, ask for a{' '}
+            cloud runtime is a browser surface. Existing customer access remains
+            organization-scoped. A new evaluator can instead open the private
+            synthetic sandbox with verified Microsoft sign-in, without a staff
+            invitation; that route cannot reach customer or production targets.
+            For a customer-specific controlled evaluation, ask for a{' '}
             <Link to="/demo" className="text-feus-200 underline underline-offset-2">
               guided live demonstration
             </Link>{' '}
@@ -67,10 +68,10 @@ export default function GetStartedPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
-            <CalendlyButton className="btn-primary">Request an intro</CalendlyButton>
+            <a href={SANDBOX_SIGNUP_URL} className="btn-primary">Try the free sandbox</a>
             <Link to="/journey" className="btn-secondary">Evaluation journey</Link>
-            <Link to="/contact?type=adoption#contact-form" className="btn-primary">
-              Start the onboarding conversation
+            <Link to="/contact?type=readiness#contact-form" className="btn-secondary">
+              Evaluate FEUS for my team
             </Link>
             <Link to="/demo" className="btn-secondary">
               See a demonstration first
@@ -219,12 +220,18 @@ export default function GetStartedPage() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
-              href={LAUNCH_URL}
+              href={SANDBOX_SIGNUP_URL}
               className="btn-primary"
+            >
+              Try the free sandbox
+            </a>
+            <a
+              href={LAUNCH_URL}
+              className="btn-secondary"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Sign in to FEUS
+              Sign in
             </a>
             <Link to="/cloud-runtime" className="btn-secondary">
               What the runtime does

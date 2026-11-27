@@ -1,5 +1,9 @@
 import { contactAvailable, consumeContactRate } from './contactControls.js';
 import { inquiryTypes } from '../src/data/contactNavigation.js';
+import {
+  claimEvaluationHandoff,
+  completeEvaluationHandoff,
+} from './evaluationHandoff.js';
 
 // ─────────────────────────────────────────────────────────
 // OPTION B: Vercel Serverless Function — Contact Form API
@@ -66,7 +70,11 @@ function bookingUrl() {
   }
 }
 
-export function createContactHandler({ rateCheck = consumeContactRate } = {}) {
+export function createContactHandler({
+  rateCheck = consumeContactRate,
+  handoffClaim = claimEvaluationHandoff,
+  handoffComplete = completeEvaluationHandoff,
+} = {}) {
 return async function handler(req, res) {
   res.setHeader?.('Cache-Control', 'no-store');
   if (req.method === 'GET') {
@@ -82,6 +90,7 @@ return async function handler(req, res) {
   }
   if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) return res.status(400).json({ error: 'Invalid submission' });
   const { firstName, lastName, email, company, jobTitle, inquiryType, message } = req.body || {};
+  const handoffToken = String(req.body.handoffToken || '');
 
   for (const [field, limit] of Object.entries(LIMITS)) {
     const value = req.body[field];
@@ -93,6 +102,7 @@ return async function handler(req, res) {
   }
   if (!inquiryTypes.includes(inquiryType) || req.body.privacyConsent !== true ||
       (req.body.website !== undefined && req.body.website !== '')) return res.status(400).json({ error: 'Invalid submission or missing privacy consent' });
+  if (handoffToken && !/^[A-Za-z0-9_-]{32,96}$/.test(handoffToken)) return res.status(400).json({ error: 'Invalid handoff token' });
 
   // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -117,6 +127,28 @@ return async function handler(req, res) {
     }
   } catch {
     return res.status(503).json({ error: 'Abuse protection is unavailable. No message was sent; please use direct email.' });
+  }
+
+  if (handoffToken) {
+    let deliveryClaimId = ''
+    try {
+      const handoff = await handoffClaim(handoffToken, email.trim());
+      if (handoff.replayed && handoff.completed) {
+        return res.status(200).json({
+          success: true,
+          delivery: 'provider_accepted',
+          replayed: true,
+          inquiryReceipt: handoff.delivery_receipt,
+          message: 'This consented workflow inquiry was already accepted.',
+        });
+      }
+      deliveryClaimId = handoff.delivery_claim_id || ''
+    } catch (error) {
+      return res.status(error.status || 502).json({
+        error: error.message || 'The evaluation handoff is unavailable. No message was sent.',
+      });
+    }
+    req.handoffDeliveryClaimId = deliveryClaimId
   }
 
   try {
@@ -177,7 +209,9 @@ return async function handler(req, res) {
           </div>
         </div>
       `,
-    });
+    }, handoffToken && req.handoffDeliveryClaimId
+      ? { idempotencyKey: req.handoffDeliveryClaimId }
+      : undefined);
 
     // Resend can resolve with an error instead of rejecting. Never report success.
     if (notification.error || !notification.data?.id) {
@@ -216,9 +250,26 @@ return async function handler(req, res) {
       `,
     }).catch(() => ({ error: true }));
 
+    let handoffRecorded = !handoffToken;
+    if (handoffToken) {
+      try {
+        await handoffComplete(
+          handoffToken,
+          email.trim(),
+          notification.data.id,
+        );
+        handoffRecorded = true;
+      } catch {
+        handoffRecorded = false;
+      }
+    }
+
     return res.status(200).json({
       success: true,
       delivery: 'provider_accepted',
+      inquiryReceipt: notification.data.id,
+      replayed: false,
+      handoffRecorded,
       acknowledgementAccepted: !acknowledgement.error && Boolean(acknowledgement.data?.id),
       message: 'The email provider accepted the inquiry; inbox delivery is not confirmed.',
     });

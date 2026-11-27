@@ -48,7 +48,7 @@ export default function AudiencePaths({ className = '' }) {
               rel="noopener noreferrer"
               className="btn-secondary inline-flex items-center justify-center gap-2 w-full"
             >
-              Sign in to FEUS
+              Sign in
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           )}

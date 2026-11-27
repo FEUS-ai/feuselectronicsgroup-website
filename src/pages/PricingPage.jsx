@@ -63,7 +63,7 @@ export default function PricingPage() {
             ))}
           </div>
           <div className="mt-10 flex flex-wrap gap-4">
-            <CTAButton to="/contact">Discuss an engagement</CTAButton>
+            <CTAButton to="/contact?type=readiness#contact-form">Evaluate FEUS for my team</CTAButton>
             <CTAButton to="/services" variant="secondary">Our services</CTAButton>
           </div>
         </div>

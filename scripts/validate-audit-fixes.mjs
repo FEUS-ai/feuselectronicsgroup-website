@@ -134,8 +134,9 @@ const mustNot = (text, re, where, why) => {
 
   const started = read('src', 'pages', 'GetStartedPage.jsx')
   must(
-    started, /not open to the public|not open for public/i, 'src/pages/GetStartedPage.jsx',
-    'the adoption page must state that the runtime is not publicly accessible'
+    started, /organization-scoped|not open to the public|not open for public/i,
+    'src/pages/GetStartedPage.jsx',
+    'the adoption page must distinguish existing customer access from the bounded public sandbox'
   )
 }
 

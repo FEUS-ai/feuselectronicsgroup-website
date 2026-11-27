@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
-import { CalendlyButton } from '../components/CalendlyEmbed'
 import CommercialNotice from '../components/CommercialNotice'
 import UseCaseStories from '../components/UseCaseStories'
+import EvaluationChoices from '../components/EvaluationChoices'
 import { JOURNEY_CALLS } from '../data/commercialJourney'
 
 export default function CommercialJourneyPage() {
   return <div className="commercial-page">
-    <SEO title="FEUS.ai evaluation journey" description="Start with an intro, qualify one use case, agree customer readiness and evaluate verified value. No trial clock before onboarding or automatic billing." />
+    <SEO title="FEUS.ai evaluation journey" description="Choose a 14-day synthetic sandbox that starts when its workspace is ready, or a guided enterprise evaluation that starts after readiness and administrator activation. No automatic billing." />
     <header>
       <p className="commercial-eyebrow">From business intent to verified value</p>
       <h1>A useful first conversation.<br />A controlled path to adoption.</h1>
       <p>Explore FEUS.ai around your actual workload, governance needs and evidence, with a clear decision at every step.</p>
-      <div className="commercial-actions"><CalendlyButton>Request an intro</CalendlyButton><Link to="/trial" className="btn-secondary">Review the evaluation trial</Link></div>
-      <p className="commercial-small">After you request an intro, we confirm a time with you by email or through the scheduling link.</p>
+      <EvaluationChoices sandboxPrimary />
+      <p className="commercial-small">Returning customer? Use the existing <a href="https://app.feuselectronicsgroup.com/">Sign in</a> path.</p>
     </header>
     <CommercialNotice />
     <section aria-labelledby="calls-title"><h2 id="calls-title">Four conversations, with clear decisions</h2>

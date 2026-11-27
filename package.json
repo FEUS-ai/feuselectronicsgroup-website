@@ -3,12 +3,15 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22 <25"
+  },
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/validate-public-claims.mjs && node scripts/validate-audit-fixes.mjs",
+    "prebuild": "node scripts/validate-evaluation-offer.mjs && node scripts/validate-public-claims.mjs && node scripts/validate-audit-fixes.mjs",
     "build": "vite build",
     "preview": "vite preview",
-  "test": "node scripts/check-production-truth.mjs && node scripts/validate-public-claims.mjs && node scripts/validate-audit-fixes.mjs && node --test --test-concurrency=1 scripts/second-audit.test.mjs scripts/starter-launch.test.mjs scripts/commercialization.test.mjs scripts/production-truth.test.mjs",
+  "test": "node scripts/check-production-truth.mjs && node scripts/validate-evaluation-offer.mjs && node scripts/validate-public-claims.mjs && node scripts/validate-audit-fixes.mjs && node --test --test-concurrency=1 scripts/second-audit.test.mjs scripts/starter-launch.test.mjs scripts/commercialization.test.mjs scripts/production-truth.test.mjs",
     "brand:assets": "node scripts/generate-brand-assets.mjs",
     "optimize:images": "node scripts/optimize-images.mjs"
   },

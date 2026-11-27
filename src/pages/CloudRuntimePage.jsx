@@ -167,7 +167,7 @@ export default function CloudRuntimePage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Sign in to FEUS
+              Sign in
             </a>
             <Link to="/get-started" className="btn-secondary">
               How onboarding works

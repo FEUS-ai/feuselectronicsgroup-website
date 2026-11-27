@@ -1,7 +1,7 @@
 export const JOURNEY_CALLS = [
   { title: 'Call 1 · Intro', timing: 'Approximately 20–30 minutes', detail: 'Understand the outcome, decision makers, existing estate and delivery preference. Agree whether a deeper evaluation is useful; no target access is required.' },
   { title: 'Call 2 · Discovery & fit', timing: 'Approximately 30–60 minutes', detail: 'Review one bounded use case, baseline evidence, data sensitivity, delivery route, constraints and commercial expectations. Scope users, resources and entitlements together.' },
-  { title: 'Call 3 · Readiness & onboarding', timing: 'Approximately 60–90 minutes', detail: 'Review your customer-specific readiness pack: identity, tenant isolation, target permissions, privacy, model budgets, approval owners, audit and rollback. The trial starts only after onboarding is complete.' },
+  { title: 'Call 3 · Readiness & onboarding', timing: 'Approximately 60–90 minutes', detail: 'Review your customer-specific readiness pack: identity, tenant isolation, target permissions, privacy, model budgets, approval owners, audit and rollback. The enterprise controlled trial starts only after readiness is accepted, onboarding is complete and the administrator activates it.' },
   { title: 'Call 4 · Value & next decision', timing: 'Around trial day 12–14', detail: 'Review results against the agreed baseline. Choose a paid package, an approved extension, or a clean offboarding. No automatic billing or silent conversion.' },
 ]
 

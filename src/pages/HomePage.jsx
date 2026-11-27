@@ -26,6 +26,7 @@ import { CalendlyButton } from '../components/CalendlyEmbed'
 import { SectionLabel, SectionHeader, CTAButton } from '../components/ui'
 import { AGENT_PORTFOLIO, POSTURE } from '../data/publicStatus'
 import { CLOUD_RUNTIME, LAUNCH_URL, ROUTING_MODES } from '../data/cloudRuntime'
+import { ENTERPRISE_INTAKE_URL, SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 const servicePaths = [
   {
@@ -180,13 +181,14 @@ function Hero() {
             Coordinate intelligent agents, enterprise controls, automation, model selection, audit evidence, and human approval through one secure operating experience.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <CalendlyButton className="btn-primary">Request an intro</CalendlyButton>
+            <a href={SANDBOX_SIGNUP_URL} className="btn-primary">Try the free sandbox</a>
+            <a href={ENTERPRISE_INTAKE_URL} className="btn-secondary">Evaluate FEUS for my team</a>
             <CTAButton to="/journey" variant="secondary">See the evaluation journey</CTAButton>
             <CTAButton to="/demo" variant="secondary">Request a demonstration</CTAButton>
             <CTAButton to="/get-started" variant="secondary">See the adoption path</CTAButton>
             <CTAButton to="/feus-ai" variant="secondary">Explore the platform</CTAButton>
           </div>
-          <p className="mt-4 text-sm text-slate-300">We confirm every intro by email. Review <Link to="/readiness" className="underline">customer readiness</Link> and <Link to="/packages" className="underline">engagement packages</Link>: trials start after onboarding, with no automatic billing.</p>
+          <p className="mt-4 text-sm text-slate-300">The sandbox starts when its private synthetic workspace is usable. The guided enterprise trial starts only after readiness and administrator activation. Review <Link to="/readiness" className="underline">customer readiness</Link> and <Link to="/packages" className="underline">engagement packages</Link>; no evaluation route creates automatic billing.</p>
           <p className="mt-4 max-w-2xl text-sm text-slate-300">
             FEUS.ai is a product of FEUS Electronics Group and runs in production on Microsoft Azure. Start with a guided live demonstration led by a FEUS engineer, using Microsoft Foundry models, sample data, Microsoft Entra ID sign-in and an agreed budget. An offline walkthrough is also available.
           </p>
@@ -198,7 +200,7 @@ function Hero() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-accent-300 underline underline-offset-2"
             >
-              Sign in to FEUS
+              Sign in
               <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </a>{' '}
             &mdash; requires an account your organisation has granted.
@@ -376,7 +378,7 @@ function CloudRuntimeSection() {
                 rel="noopener noreferrer"
                 className="text-accent-300 underline underline-offset-2"
               >
-                Sign in to FEUS
+                Sign in
               </a>
               .
             </p>
