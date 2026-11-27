@@ -99,6 +99,44 @@ export default function GetStartedPage() {
 
       <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06]">
         <div className="max-w-4xl mx-auto">
+          <SectionLabel>Your first 15 minutes</SectionLabel>
+          <h2 className="text-2xl font-bold text-white mt-4">Start in the synthetic sandbox</h2>
+          <ol className="mt-6 space-y-4 text-gray-300">
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">1 · Open and sign in.</strong> Select Try the free sandbox, acknowledge the synthetic-only terms, and complete Microsoft authentication. Personal accounts use the common sign-in route; invited organization guests can select Existing organization in the workbench.</li>
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">2 · Verify the workspace.</strong> FEUS should create or resume one private organization, show its synthetic-only evaluation target, and display the readiness/start time and 14-day expiry. A retry must not reset that expiry.</li>
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">3 · Start with Hello FEUS.</strong> Ask what the current workspace can do, which agents are available, and which targets are permitted. Confirm the human requester and execution identity separately.</li>
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">4 · Use synthetic data.</strong> Ask for 3 Customers and 5 related Orders with seed 42. Verify the exact row counts, foreign keys and downloadable output.</li>
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">5 · Review a reversible plan.</strong> Ask FEUS to plan one approved reversible setting change in the private sandbox without executing. Verify target, baseline, impact, rollback and plan hash. Cancel it once, then create a fresh plan if you want to approve and restore it.</li>
+            <li className="glass-card rounded-2xl p-6"><strong className="text-white">6 · Return.</strong> Sign out, sign in again and verify the same organization, conversation evidence and original expiry.</li>
+          </ol>
+          <p className="mt-5 text-sm text-gray-400">The sandbox never connects to SQL1-FEG or a customer production system. Production, non-synthetic targets and destructive operations are outside this route.</p>
+        </div>
+      </section>
+
+      <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06]">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-white mb-6">Choose the right adoption path</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="glass-card rounded-2xl p-6">
+              <p className="text-xs font-bold text-feus-300 uppercase tracking-wider">Hosted browser</p>
+              <h3 className="mt-3 text-lg font-bold text-white">Sandbox and guided enterprise use</h3>
+              <p className="mt-3 text-sm text-gray-400 leading-relaxed">Use Microsoft sign-in, the private workbench, policy-approved agents, durable conversations, audit/approval evidence and the synthetic target. Customer targets are qualified separately during onboarding.</p>
+            </div>
+            <div className="glass-card rounded-2xl p-6">
+              <p className="text-xs font-bold text-feus-300 uppercase tracking-wider">Expert / VS Code / MCP</p>
+              <h3 className="mt-3 text-lg font-bold text-white">Customer-environment operation</h3>
+              <p className="mt-3 text-sm text-gray-400 leading-relaxed">Use the supported private distribution when FEUS must run from your workstation or runner. Your operator qualifies identity, target, TLS, connectivity, relay and least-privilege permissions before any governed SQL.</p>
+            </div>
+          </div>
+          <div className="mt-6 glass-card rounded-2xl p-6">
+            <h3 className="text-base font-bold text-white">Commercial sequence</h3>
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">Scope and success criteria → customer readiness → identity and target qualification → onboarding → administrator trial activation → evidence/value review → package selection → explicit proposal and billing authorization → support, audit, renewal and rollback handoff.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06]">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-2">The onboarding path</h2>
           <p className="text-sm text-gray-400 mb-6 leading-relaxed">
             Nine steps, with the owner of each one named. FEUS does not ask for
