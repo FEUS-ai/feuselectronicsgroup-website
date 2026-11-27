@@ -109,7 +109,7 @@ test('main product surfaces present the service confidently and keep demo/adopti
     assert.doesNotMatch(copy, /NO-GO|above LOCAL|\bTST\b|does not establish/, name)
   }
   const started = await page('GetStartedPage', '/get-started')
-  assert.ok(links(started).includes('/contact?type=readiness#contact-form'))
+  assert.ok(links(started).includes('mailto:info@feuselectronicsgroup.com?subject=FEUS.ai%20team%20evaluation&body=Please%20help%20me%20evaluate%20FEUS.ai%20for%20my%20team.%0A%0ACompany%3A%0AName%3A%0ATarget%20outcome%3A%0A'))
   assert.ok(links(started).includes('https://app.feuselectronicsgroup.com/?start=sandbox'))
 })
 

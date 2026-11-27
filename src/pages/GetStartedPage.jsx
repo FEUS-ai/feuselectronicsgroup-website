@@ -12,7 +12,7 @@ import {
 } from '../data/cloudRuntime'
 import { POSTURE } from '../data/publicStatus'
 import CommercialNotice from '../components/CommercialNotice'
-import { SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
+import { ENTERPRISE_INTAKE_URL, SANDBOX_SIGNUP_URL } from '../data/evaluationOffer'
 
 /**
  * /get-started — the client onboarding path (W-12).
@@ -70,9 +70,9 @@ export default function GetStartedPage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a href={SANDBOX_SIGNUP_URL} className="btn-primary">Try the free sandbox</a>
             <Link to="/journey" className="btn-secondary">Evaluation journey</Link>
-            <Link to="/contact?type=readiness#contact-form" className="btn-secondary">
+            <a href={ENTERPRISE_INTAKE_URL} className="btn-secondary">
               Evaluate FEUS for my team
-            </Link>
+            </a>
             <Link to="/demo" className="btn-secondary">
               See a demonstration first
             </Link>
