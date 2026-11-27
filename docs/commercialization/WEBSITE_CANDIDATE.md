@@ -22,6 +22,10 @@ membership. The earlier single-tenant statement below is historical evidence
 for the guided-customer rollout and is superseded for this separate sandbox
 identity path; customer tenant assignment controls remain unchanged.
 
+`/get-started` is the public step-by-step guide. It now contains the first
+15-minute sandbox path, hosted-versus-Expert boundary, repeatable evidence
+checks and commercial sequence without exposing target internals.
+
 `feus-platform/commercial-offers.yaml` in the distribution repository is the
 commercial source. The website vendors its public JSON, pins the normalized
 contract digest, and checks route labels, start events, duration, paid-conversion
